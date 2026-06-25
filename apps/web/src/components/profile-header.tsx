@@ -56,7 +56,7 @@ export function ProfileHeader() {
 						<Button
 							variant="outline"
 							size="icon-lg"
-							className="pointer-coarse:size-11"
+							className="pointer-coarse:size-11 rounded-md"
 						/>
 					}
 				>
