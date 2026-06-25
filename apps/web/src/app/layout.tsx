@@ -19,13 +19,17 @@ export const metadata: Metadata = {
 	title: "Ronit Sarkar (@iamrony777)",
 	description: "Ronit Sarkar — developer portfolio. Projects, stack and links.",
 	metadataBase: new URL("https://ronit.is-a.dev"),
+	alternates: { canonical: "/" },
 	openGraph: {
 		title: "Ronit Sarkar (@iamrony777)",
-		description: "Developer portfolio of Ronit Sarkar.",
+		description:
+			"Ronit Sarkar — developer portfolio. Projects, stack and links.",
 		url: "https://ronit.is-a.dev",
 		images: ["/pfp.jpg"],
 		type: "profile",
 	},
+	// pfp.jpg is square (1080²); summary card avoids the 1200×630 crop.
+	twitter: { card: "summary" },
 	icons: { icon: "/pfp.jpg" },
 };
 
