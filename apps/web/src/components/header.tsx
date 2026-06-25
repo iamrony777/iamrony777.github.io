@@ -1,28 +1,22 @@
 "use client";
-import Link from "next/link";
 
+import { profile } from "@/data/profile";
 import { ModeToggle } from "./mode-toggle";
 
 export default function Header() {
-	const links = [{ to: "/", label: "Home" }] as const;
-
 	return (
-		<div>
-			<div className="flex flex-row items-center justify-between px-2 py-1">
-				<nav className="flex gap-4 text-lg">
-					{links.map(({ to, label }) => {
-						return (
-							<Link key={to} href={to}>
-								{label}
-							</Link>
-						);
-					})}
-				</nav>
-				<div className="flex items-center gap-2">
-					<ModeToggle />
-				</div>
+		<header className="sticky top-0 z-40 border-border border-b bg-background/80 pt-[env(safe-area-inset-top)] backdrop-blur">
+			<div className="mx-auto flex w-full max-w-4xl items-center justify-between py-2 pr-[max(1rem,env(safe-area-inset-right))] pl-[max(1rem,env(safe-area-inset-left))]">
+				<a
+					href={profile.github}
+					target="_blank"
+					rel="noopener noreferrer"
+					className="-mx-2 rounded-md px-2 py-1 font-semibold text-lg tracking-tight outline-none focus-visible:ring-2 focus-visible:ring-ring"
+				>
+					@{profile.handle}
+				</a>
+				<ModeToggle />
 			</div>
-			<hr />
-		</div>
+		</header>
 	);
 }
