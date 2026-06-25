@@ -1,5 +1,6 @@
+import { ArrowUpRight01Icon, GlobalIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { cn } from "@portfolio/ui/lib/utils";
-import { ArrowUpRight } from "lucide-react";
 
 import { projects } from "@/data/profile";
 
@@ -16,49 +17,80 @@ const gradients = [
 export function ProjectGrid() {
 	return (
 		<div className="grid grid-cols-3 gap-1 sm:gap-2">
-			{projects.map((p, i) => (
-				<a
-					key={p.title}
-					href={p.href}
-					target="_blank"
-					rel="noopener noreferrer"
-					className="group relative aspect-square overflow-hidden bg-muted outline-none focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-				>
-					{p.image ? (
-						// biome-ignore lint/performance/noImgElement: static export — next/image optimization is unavailable on GitHub Pages
-						<img
-							src={p.image}
-							alt={p.title}
-							loading="lazy"
-							className="size-full object-cover transition-transform duration-300 group-hover:scale-105 group-active:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-						/>
-					) : (
-						<div
-							className={cn(
-								"size-full bg-gradient-to-br transition-transform duration-300 group-hover:scale-105 group-active:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100",
-								gradients[i % gradients.length],
+			{projects.map((p, i) => {
+				const linked = p.href !== "#";
+				const Tag = linked ? "a" : "div";
+				return (
+					<Tag
+						key={p.title}
+						{...(linked
+							? { href: p.href, target: "_blank", rel: "noopener noreferrer" }
+							: {})}
+						className="group relative aspect-square overflow-hidden bg-muted outline-none focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+					>
+						{p.image ? (
+							// biome-ignore lint/performance/noImgElement: static export — next/image optimization is unavailable on GitHub Pages
+							<img
+								src={p.image}
+								alt={p.title}
+								loading="lazy"
+								className="size-full object-cover transition-transform duration-300 group-hover:scale-105 group-active:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+							/>
+						) : (
+							<div
+								className={cn(
+									"size-full bg-gradient-to-br transition-transform duration-300 group-hover:scale-105 group-active:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100",
+									gradients[i % gradients.length],
+								)}
+							/>
+						)}
+
+						{p.country === "global" ? (
+							<HugeiconsIcon
+								icon={GlobalIcon}
+								className="absolute top-1.5 right-1.5 z-10 size-5 text-white drop-shadow-md sm:size-6"
+							/>
+						) : (
+							p.country && (
+								// biome-ignore lint/performance/noImgElement: static export — next/image is unavailable on GitHub Pages
+								<img
+									src={`https://flagcdn.com/32x24/${p.country}.png`}
+									srcSet={`https://flagcdn.com/64x48/${p.country}.png 2x`}
+									width={32}
+									height={24}
+									alt={`${p.country} flag`}
+									loading="lazy"
+									className="absolute top-1.5 right-1.5 z-10 h-auto w-5 rounded-[2px] shadow-sm ring-1 ring-black/10 sm:w-6"
+								/>
+							)
+						)}
+
+						{/* persistent caption — readable on every device, no hover required */}
+						<div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/65 to-transparent p-2 pt-6">
+							<span className="flex items-center gap-1 font-medium text-white text-xs drop-shadow-sm sm:text-sm">
+								{p.title}
+								{linked && (
+									<HugeiconsIcon
+										icon={ArrowUpRight01Icon}
+										className="size-3.5 shrink-0 opacity-80"
+									/>
+								)}
+							</span>
+						</div>
+
+						{/* richer overlay — only on hover-capable pointers */}
+						<div className="pointer-events-none absolute inset-0 hidden flex-col items-center justify-center gap-1 bg-black/55 p-3 text-center text-white opacity-0 transition-opacity duration-200 motion-reduce:transition-none [@media(hover:hover)]:flex [@media(hover:hover)]:group-hover:opacity-100">
+							{linked && (
+								<HugeiconsIcon icon={ArrowUpRight01Icon} className="size-5" />
 							)}
-						/>
-					)}
-
-					{/* persistent caption — readable on every device, no hover required */}
-					<div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/65 to-transparent p-2 pt-6">
-						<span className="flex items-center gap-1 font-medium text-white text-xs drop-shadow-sm sm:text-sm">
-							{p.title}
-							<ArrowUpRight className="size-3.5 shrink-0 opacity-80" />
-						</span>
-					</div>
-
-					{/* richer overlay — only on hover-capable pointers */}
-					<div className="pointer-events-none absolute inset-0 hidden flex-col items-center justify-center gap-1 bg-black/55 p-3 text-center text-white opacity-0 transition-opacity duration-200 motion-reduce:transition-none [@media(hover:hover)]:flex [@media(hover:hover)]:group-hover:opacity-100">
-						<ArrowUpRight className="size-5" />
-						<span className="font-medium text-sm">{p.title}</span>
-						<span className="line-clamp-2 text-white/85 text-xs">
-							{p.blurb}
-						</span>
-					</div>
-				</a>
-			))}
+							<span className="font-medium text-sm">{p.title}</span>
+							<span className="line-clamp-2 text-white/85 text-xs">
+								{p.blurb}
+							</span>
+						</div>
+					</Tag>
+				);
+			})}
 		</div>
 	);
 }
