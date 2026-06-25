@@ -1,4 +1,5 @@
-import { LayoutGrid } from "lucide-react";
+import { GridViewIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 
 import { ProfileHeader } from "@/components/profile-header";
 import { ProjectGrid } from "@/components/project-grid";
@@ -10,7 +11,7 @@ export default function Home() {
 
 			<div className="mt-8 flex items-center justify-center border-border border-t">
 				<span className="-mt-px flex items-center gap-1.5 border-foreground border-t-2 px-4 py-3 font-medium text-xs uppercase tracking-widest">
-					<LayoutGrid className="size-3.5" />
+					<HugeiconsIcon icon={GridViewIcon} className="size-3.5" />
 					Posts
 				</span>
 			</div>

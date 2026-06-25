@@ -8,11 +8,13 @@
 		"start": "next start"
 	},
 	"dependencies": {
+		"@hugeicons/core-free-icons": "^4.2.1",
+		"@hugeicons/react": "^1.1.9",
 		"@portfolio/env": "workspace:*",
 		"@portfolio/ui": "workspace:*",
 		"babel-plugin-react-compiler": "^1.0.0",
 		"dotenv": "catalog:",
-		"lucide-react": "catalog:",
+		"framer-motion": "^12.42.0",
 		"next": "^16.2.0",
 		"next-themes": "catalog:",
 		"react": "catalog:",

@@ -15,9 +15,11 @@
 	},
 	"dependencies": {
 		"@base-ui/react": "^1.0.0",
+		"@hugeicons/core-free-icons": "^4.2.1",
+		"@hugeicons/react": "^1.1.9",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
-		"lucide-react": "catalog:",
+		"framer-motion": "^12.42.0",
 		"next-themes": "catalog:",
 		"react": "catalog:",
 		"react-dom": "catalog:",

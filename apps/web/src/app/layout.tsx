@@ -1,12 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Space_Grotesk } from "next/font/google";
 
 import "../index.css";
 import Header from "@/components/header";
 import Providers from "@/components/providers";
 
-const geistSans = Geist({
-	variable: "--font-geist-sans",
+const spaceGrotesk = Space_Grotesk({
+	variable: "--font-space-grotesk",
 	subsets: ["latin"],
 });
 
@@ -47,7 +47,7 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+				className={`${spaceGrotesk.variable} ${geistMono.variable} antialiased`}
 			>
 				<Providers>
 					<div className="grid min-h-svh grid-cols-1 grid-rows-[auto_1fr]">

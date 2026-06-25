@@ -1,5 +1,7 @@
 "use client";
 
+import { ArrowDown01Icon, Link01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import {
 	Avatar,
 	AvatarFallback,
@@ -13,14 +15,13 @@ import {
 	DropdownMenuTrigger,
 } from "@portfolio/ui/components/dropdown-menu";
 import { cn } from "@portfolio/ui/lib/utils";
-import { ChevronDown, Link2 } from "lucide-react";
 
-import { highlights, profile, projects } from "@/data/profile";
+import { highlights, profile } from "@/data/profile";
 
 const stats = [
-	{ value: projects.length, label: "posts" },
-	{ value: profile.followers, label: "followers" },
-	{ value: profile.following, label: "following" },
+	{ value: "20+", label: "projects" },
+	{ value: "10+", label: "clients" },
+	{ value: "3+", label: "years experience" },
 ];
 
 export function ProfileHeader() {
@@ -59,7 +60,7 @@ export function ProfileHeader() {
 						/>
 					}
 				>
-					<ChevronDown />
+					<HugeiconsIcon icon={ArrowDown01Icon} />
 					<span className="sr-only">More links</span>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end">
@@ -94,7 +95,7 @@ export function ProfileHeader() {
 				rel="noopener noreferrer"
 				className="mt-0.5 inline-flex w-fit items-center gap-1 font-medium text-primary text-sm hover:underline"
 			>
-				<Link2 className="size-3.5" />
+				<HugeiconsIcon icon={Link01Icon} className="size-3.5" />
 				{profile.link.label}
 			</a>
 		</div>
@@ -137,11 +138,15 @@ export function ProfileHeader() {
 				{highlights.map((h) => (
 					<li key={h.label} className="shrink-0">
 						<a
-							href={h.href}
-							className="group/hl flex flex-col items-center gap-1.5 text-xs outline-none"
+							href={h.disabled ? undefined : h.href}
+							aria-disabled={h.disabled}
+							className={cn(
+								"group/hl flex flex-col items-center gap-1.5 text-xs outline-none",
+								h.disabled && "pointer-events-none opacity-50",
+							)}
 						>
 							<span className="flex size-16 items-center justify-center rounded-full border border-border bg-muted text-muted-foreground transition-colors hover:bg-accent group-focus-visible/hl:ring-2 group-focus-visible/hl:ring-ring group-focus-visible/hl:ring-offset-2 group-focus-visible/hl:ring-offset-background group-active/hl:bg-accent motion-reduce:transition-none sm:size-20">
-								<h.icon className="size-6" />
+								<HugeiconsIcon icon={h.icon} className="size-6" />
 							</span>
 							{h.label}
 						</a>

@@ -1,44 +1,75 @@
 "use client";
 
-import { Button } from "@portfolio/ui/components/button";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "@portfolio/ui/components/dropdown-menu";
-import { Moon, Sun } from "lucide-react";
+import { cn } from "@portfolio/ui/lib/utils";
+import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
+// Skiper4 variant 2 toggle, wired to next-themes. Sun rays retract behind a
+// clip-path as the disc slides over → moon. `isDark` drives all animations.
 export function ModeToggle() {
-	const { setTheme } = useTheme();
+	const { resolvedTheme, setTheme } = useTheme();
+	const [mounted, setMounted] = useState(false);
+	// next-themes resolves on the client; guard avoids a hydration mismatch.
+	useEffect(() => setMounted(true), []);
+
+	const isDark = mounted && resolvedTheme === "dark";
 
 	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger
-				render={
-					<Button
-						variant="outline"
-						size="icon"
-						className="pointer-coarse:size-11"
-					/>
-				}
+		<button
+			type="button"
+			aria-label="Toggle theme"
+			className={cn(
+				"pointer-coarse:size-11 size-9 rounded-full border border-border p-2 transition-colors duration-300 active:scale-95 motion-reduce:transition-none",
+				isDark ? "bg-black text-white" : "bg-white text-black",
+			)}
+			onClick={() => setTheme(isDark ? "light" : "dark")}
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				aria-hidden="true"
+				fill="currentColor"
+				strokeLinecap="round"
+				viewBox="0 0 32 32"
 			>
-				<Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all motion-reduce:transition-none dark:-rotate-90 dark:scale-0" />
-				<Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all motion-reduce:transition-none dark:rotate-0 dark:scale-100" />
-				<span className="sr-only">Toggle theme</span>
-			</DropdownMenuTrigger>
-			<DropdownMenuContent align="end">
-				<DropdownMenuItem onClick={() => setTheme("light")}>
-					Light
-				</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => setTheme("dark")}>
-					Dark
-				</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => setTheme("system")}>
-					System
-				</DropdownMenuItem>
-			</DropdownMenuContent>
-		</DropdownMenu>
+				<clipPath id="mode-toggle-clip">
+					<motion.path
+						initial={false}
+						animate={{ y: isDark ? 10 : 0, x: isDark ? -12 : 0 }}
+						transition={{ ease: "easeInOut", duration: 0.35 }}
+						d="M0-5h30a1 1 0 0 0 9 13v24H0Z"
+					/>
+				</clipPath>
+				<g clipPath="url(#mode-toggle-clip)">
+					<motion.circle
+						initial={false}
+						animate={{ r: isDark ? 10 : 8 }}
+						transition={{ ease: "easeInOut", duration: 0.35 }}
+						cx="16"
+						cy="16"
+					/>
+					<motion.g
+						initial={false}
+						animate={{
+							rotate: isDark ? -100 : 0,
+							scale: isDark ? 0.5 : 1,
+							opacity: isDark ? 0 : 1,
+						}}
+						transition={{ ease: "easeInOut", duration: 0.35 }}
+						stroke="currentColor"
+						strokeWidth="1.5"
+					>
+						<path d="M16 5.5v-4" />
+						<path d="M16 30.5v-4" />
+						<path d="M1.5 16h4" />
+						<path d="M26.5 16h4" />
+						<path d="m23.4 8.6 2.8-2.8" />
+						<path d="m5.7 26.3 2.9-2.9" />
+						<path d="m5.8 5.8 2.8 2.8" />
+						<path d="m23.4 23.4 2.9 2.9" />
+					</motion.g>
+				</g>
+			</svg>
+		</button>
 	);
 }
